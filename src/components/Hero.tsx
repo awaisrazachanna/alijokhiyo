@@ -36,7 +36,7 @@ const Hero = () => {
         >
           Muhammad Ali
           <br />
-          <span className="text-gradient-gold">Jokhio</span>
+          <span className="text-gradient-gold">Jokhyo</span>
         </motion.h1>
 
         <motion.p

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Instagram, Youtube } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import SuccessDialog from "./SuccessDialog";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,13 +12,35 @@ const Contact = () => {
     eventType: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const phoneNumber = "+31 621388753";
+  const emailAddress = "alijokhio755@gmail.com";
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-    alert("Thank you for your message! I'll get back to you soon.");
-    setFormData({ name: "", email: "", phone: "", eventType: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        event_type: formData.eventType || null,
+        message: formData.message,
+      });
+
+      if (error) throw error;
+
+      setShowSuccess(true);
+      setFormData({ name: "", email: "", phone: "", eventType: "", message: "" });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("There was an error submitting your message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -86,10 +110,10 @@ const Contact = () => {
                 <div>
                   <p className="font-body text-sm text-muted-foreground">Email</p>
                   <a
-                    href="mailto:info@alijokhio.nl"
+                    href={`mailto:${emailAddress}`}
                     className="font-body text-foreground transition-colors hover:text-primary"
                   >
-                    info@alijokhio.nl
+                    {emailAddress}
                   </a>
                 </div>
               </div>
@@ -101,10 +125,10 @@ const Contact = () => {
                 <div>
                   <p className="font-body text-sm text-muted-foreground">Phone</p>
                   <a
-                    href="tel:+31612345678"
+                    href={`tel:${phoneNumber.replace(/\s/g, "")}`}
                     className="font-body text-foreground transition-colors hover:text-primary"
                   >
-                    +31 6 12 34 56 78
+                    {phoneNumber}
                   </a>
                 </div>
               </div>
@@ -239,14 +263,21 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="w-full border border-primary bg-primary px-8 py-4 font-body text-sm uppercase tracking-widest text-primary-foreground transition-all duration-300 hover:bg-transparent hover:text-primary md:w-auto"
+                disabled={isSubmitting}
+                className="w-full border border-primary bg-primary px-8 py-4 font-body text-sm uppercase tracking-widest text-primary-foreground transition-all duration-300 hover:bg-transparent hover:text-primary disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </motion.div>
         </div>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        phoneNumber={phoneNumber}
+      />
     </section>
   );
 };

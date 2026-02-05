@@ -9,7 +9,7 @@ const Hero = () => {
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt="Wedding photography by Muhammad Ali Jokhio"
+          alt="Wedding photography by Muhammad Ali Jokhiyo"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-hero" />

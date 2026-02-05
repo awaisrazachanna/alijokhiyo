@@ -24,7 +24,7 @@ const About = () => {
             <div className="relative aspect-[3/4] overflow-hidden">
               <img
                 src={photographerImage}
-                alt="Muhammad Ali Jokhio - Photographer & Videographer"
+                alt="Muhammad Ali Jokhiyo - Photographer & Videographer"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 border border-primary/20" />
@@ -52,7 +52,7 @@ const About = () => {
 
             <div className="mt-8 space-y-6 font-body text-muted-foreground">
               <p>
-                I'm Muhammad Ali Jokhio, a passionate photographer and videographer 
+                I'm Muhammad Ali Jokhiyo, a passionate photographer and videographer 
                 based in Leeuwarden, Netherlands. With over 8 years of experience, 
                 I specialize in capturing the most precious moments of your life 
                 with a cinematic touch.

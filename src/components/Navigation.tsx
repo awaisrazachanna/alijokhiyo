@@ -33,7 +33,7 @@ const Navigation = () => {
       <div className="container mx-auto flex items-center justify-between px-4 py-6">
         {/* Logo */}
         <a href="#" className="font-display text-2xl font-medium text-foreground">
-          <span className="text-primary">M</span>AJ
+          <span className="text-primary">A</span>JK
         </a>
 
         {/* Desktop Navigation */}
